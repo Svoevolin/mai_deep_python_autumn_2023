@@ -1,18 +1,21 @@
-PYTHON = python3
+VIRTUAL_ENV=env
+PYTHON=${VIRTUAL_ENV}/bin/python3
 
-.PHONY: run test
+.PHONY: run clean venv test
 
-venv:
-	$(PYTHON) -m venv venv
+clean:
+	rm -rf $(VIRTUAL_ENV)
 
-activate_venv:
-	source venv/bin/activate
+venv: $(VIRTUAL_ENV)
 
-dependencies:
-	pip install -r requirements.txt
+$(VIRTUAL_ENV):
+	python3 -m pip install --upgrade pip
+	python3 -m pip install virtualenv
+	virtualenv $(VIRTUAL_ENV)
+
+install: venv requirements.txt
+	$(PYTHON) -m pip install -r requirements.txt
 
 test:
 	$(PYTHON) -m unittest test.py
 
-clean:
-	rm -rf __pycache__
