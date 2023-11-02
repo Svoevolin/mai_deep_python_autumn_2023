@@ -11,9 +11,7 @@ class CustomMeta(type):
             del classdict[attr]
 
         def __setattr__(self, attr_name, attr_value):
-            if not attr_name.startswith("__"):
-                attr_name = f'custom_{attr_name}'
-            object.__setattr__(self, attr_name, attr_value)
+            object.__setattr__(self, attr_name if attr_name.startswith("__") else f'custom_{attr_name}', attr_value)
 
         classdict['__setattr__'] = __setattr__
 
