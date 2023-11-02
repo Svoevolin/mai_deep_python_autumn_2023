@@ -1,13 +1,16 @@
+"""Module of descriptors for homework №2"""
 import re
 
 
 class Name:
-    def __get__(self, obj):
+    """Class of descriptor to validate person name"""
+
+    def __get__(self, obj, objtype=None):
         return self.value
 
     def __set__(self, obj, value):
 
-        if type(value) != str:
+        if not isinstance(value, str):
             raise TypeError("Имя может содержать только буквы")
 
         if len(value) > 20:
@@ -17,26 +20,29 @@ class Name:
 
 
 class Email:
-    def __get__(self, obj):
+    """Class of descriptor to validate person email"""
+
+    def __get__(self, obj, objtype=None):
         return self.value
 
     def __set__(self, obj, value):
 
-        if type(value) != str:
+        if not isinstance(value, str):
             raise TypeError("Почта может содержать только буквы")
 
-        if not re.match('^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$', value):
+        if not re.match(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)', value):
             raise ValueError("Некорректный email")
         self.value = value
 
 
 class Age:
-    def __get__(self, obj):
+    """Class of descriptor to validate person age"""
+    def __get__(self, obj, objtype=None):
         return self.value
 
     def __set__(self, obj, value):
 
-        if type(value) != int:
+        if not isinstance(value, int):
             raise TypeError("Возраст это цифры")
 
         if value < 0 or value > 128:
@@ -46,7 +52,7 @@ class Age:
 
 
 class Person:
-
+    """Class using descriptors"""
     name = Name()
     email = Email()
     age = Age()
