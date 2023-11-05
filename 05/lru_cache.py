@@ -1,9 +1,10 @@
+"""LRU cache module"""
 from weakref import WeakValueDictionary
 from double_link_list import Node, DoubleLinkedList
 
 
 class LRUCache:
-
+    """LRU cache class"""
     def __init__(self, max_size):
         self.dict = WeakValueDictionary()
         self.order_list = DoubleLinkedList()
@@ -36,5 +37,5 @@ class LRUCache:
         self.current_size += 1
 
     def __del__(self):
-        while self.order_list.get_head():
-            self.order_list.remove(self.order_list.get_head())
+        while el := self.order_list.get_head():
+            self.order_list.remove(el)
