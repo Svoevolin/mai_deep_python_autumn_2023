@@ -14,8 +14,7 @@ class LRUCache:
         return len(self.dict)
 
     def __getitem__(self, key):
-        el = self.dict.get(f'{key}')
-        if el is not None:
+        if (el := self.dict.get(f'{key}')) is not None:
             self.order_list.remove(el)
             self.order_list.append(el)
             return el.value
@@ -23,13 +22,14 @@ class LRUCache:
             raise KeyError(f'Key "{key}" unfounded')
 
     def __setitem__(self, key, value):
-        el = self.dict.get(f'{key}')
-        if el is not None:
+        if (el := self.dict.get(f'{key}')) is not None:
             self.order_list.remove(el)
+            self.current_size -= 1
 
-        if self.current_size == self.max_size:
+        elif self.current_size == self.max_size:
             self.order_list.remove(self.order_list.get_head())
             self.current_size -= 1
+
         new_el = Node(value)
         self.order_list.append(new_el)
         self.dict[key] = new_el
