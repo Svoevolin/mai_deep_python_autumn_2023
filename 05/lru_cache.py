@@ -11,9 +11,6 @@ class LRUCache:
         self.current_size = 0
         self.max_size = max_size
 
-    def __len__(self):
-        return len(self.dict)
-
     def __getitem__(self, key):
         if (el := self.dict.get(f'{key}')) is not None:
             self.order_list.remove(el)
